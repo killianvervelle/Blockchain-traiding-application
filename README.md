@@ -1,6 +1,10 @@
 ### E-SIGNATURE project
 
-#### Running the frontend
+#### Running the frontend (React)
 
-cd frontend
-npm start
+```
+cd frontend   
+npm start   
+```
+
+#### Running the backend (Springboot)
