@@ -1,7 +1,7 @@
 import '../../src/App.css';
 
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const Register = () => {
   const { pathname } = useLocation();
@@ -41,9 +41,11 @@ const Register = () => {
                       <input type="password" className="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password" />
                     </div>
                   </div>
-                  <a href="login.html" className="btn btn-primary btn-user btn-block">
+                  <Link to="/register">
+                  <a className="btn btn-primary btn-user btn-block">
                     Register Account
                   </a>
+                  </Link>
                   <hr />
                   <a href="index.html" className="btn btn-google btn-user btn-block">
                     <i className="fab fa-google fa-fw" /> Register with Google
