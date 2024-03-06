@@ -12,7 +12,7 @@ import Database_integ from './pages/Database_integ';
 import Topbar from './components/Topbar';
 import Login from './pages/Login';
 import Lostpwd from './pages/Lostpwd';
-import Register from './pages/Register';
+import RegisterForm from './pages/Register';
 import Charts from './pages/Charts';
 import Tables from './pages/Tables';
 import ActivityLog from './pages/ActivityLog';
@@ -38,10 +38,10 @@ function App() {
               <Route path="/wallet-integration" exact element={<Wallet_integ />} />
               <Route path="/database-integration" exact element={<Database_integ />} />
               <Route path="/login" exact element={<Login />} />
-              <Route path="/register" exact element={<Register />} />
+              <Route path="/register" exact element={<RegisterForm />} />
               <Route path="/lostpassword" exact element={<Lostpwd />} />
               <Route path="/charts" exact element={<Charts />} />
-              <Route path="/tables" exact element={<Tables />} />
+              <Route path="/tables" exact element={<Tables />} /> 
               <Route path="/userprofile" exact element={<UserProfile />} />
               <Route path="/settings" exact element={<Settings />} />
               <Route path="/log" exact element={<ActivityLog />} />

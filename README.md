@@ -5,11 +5,18 @@ To integrate React with Spring Boot, we created CRUD (Create, Read, Update, Dele
 #### Running the frontend (React)
 
 ```
-cd frontend   
+cd frontend  
+npm install
 npm start   
 ```
 
 #### Running the backend (Springboot)
+```
+cd backend
+mvn clean packages
+cd target
+java -jar project-0.0.1-SNAPSHOT.jar
+```
 
 #### Frontend structure
 

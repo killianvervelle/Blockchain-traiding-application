@@ -2,6 +2,10 @@
 .App {
 }
 
+.filled {
+  color: blue;
+}
+
 .container {
   display: flex;
   flex-direction: column;

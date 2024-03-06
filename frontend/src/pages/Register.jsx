@@ -1,73 +1,103 @@
 import '../../src/App.css';
 
-import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import userService from '../assets/user.service';
 
-const Register = () => {
-  const { pathname } = useLocation();
+import React, {useState } from "react";
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [pathname]);
+const RegisterForm = () => {
+  const[user, setUser] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  });
 
-  return (
-    <div className="container">
-      <div className="card o-hidden border-0 shadow-lg my-5">
-        <div className="card-body p-0">
-          {/* Nested Row within Card Body */}
-          <div className="row">
-            <div className="col-lg-7">
-              <div className="p-5">
-                <div className="text-center">
-                  <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
-                </div>
-                <form className="user">
-                  <div className="form-group row">
-                    <div className="col-sm-6 mb-3 mb-sm-0">
-                      <input type="text" className="form-control form-control-user" id="exampleFirstName" placeholder="First Name" />
-                    </div>
-                    <div className="col-sm-6">
-                      <input type="text" className="form-control form-control-user" id="exampleLastName" placeholder="Last Name" />
-                    </div>
+  const [msg, setMsg] = useState("")
+  const [repeatedpass, SetRepeatpass] = useState("")
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setUser({...user, [name]:value})
+  }
+
+  const RegisterUser = (e) => {
+    e.preventDefault();
+    if (!repeatedpass) {
+      return;
+    }
+    console.log("user", user)
+    userService.saveUser(user)
+      .then((res) => {
+        console.log("User added successfully")
+        setMsg("User added successfully")
+        setUser({
+          firstname: "",
+          lastname: "",
+          email: "",
+          password: "",
+        })
+      }).catch((error) => {
+        console.log(error);
+      });
+      }
+    
+  const RepeatPassword = (e) => {
+    const repeated_pass = e.target.value;
+    SetRepeatpass(repeated_pass)
+    if (user.password != repeated_pass) {
+      console.log("Passwords don't match", user.password, repeated_pass)
+      SetRepeatpass(false)
+    } else {
+      console.log("Passwords match")
+      SetRepeatpass(true)
+    }
+  };
+
+    return (
+      <div className="container">
+        <div className="card o-hidden border-0 shadow-lg my-5">
+          <div className="card-body p-0">
+            <div className="row">
+              <div className="col-lg-7">
+                <div className="p-5">
+                  <div className="text-center">
+                    <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
                   </div>
-                  <div className="form-group">
-                    <input type="email" className="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address" />
-                  </div>
-                  <div className="form-group row">
-                    <div className="col-sm-6 mb-3 mb-sm-0">
-                      <input type="password" className="form-control form-control-user" id="exampleInputPassword" placeholder="Password" />
+                  <form className="user" onSubmit={(e) => {RegisterUser(e)}}>
+                    <div className="form-group row">
+                      <div className="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" name="firstname" className="form-control form-control-user" onChange={(e) => handleChange(e)} placeholder="First Name"/>
+                      </div>
+                      <div className="col-sm-6">
+                        <input type="text" name="lastname" className="form-control form-control-user" onChange={(e) => handleChange(e)} placeholder="Last Name"/>
+                      </div>
                     </div>
-                    <div className="col-sm-6">
-                      <input type="password" className="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repeat Password" />
+                    <div className="form-group">
+                      <input type="text" name="email" className="form-control form-control-user" onChange={(e) => handleChange(e)} placeholder="Email Address"/>
                     </div>
-                  </div>
-                  <Link to="/register">
-                  <a className="btn btn-primary btn-user btn-block">
-                    Register Account
-                  </a>
-                  </Link>
+                    <div className="form-group">
+                      <input type="text" name="password" className="form-control form-control-user" onChange={(e) => handleChange(e)} value={user.password} placeholder="Password"/>
+                    </div>
+                    <div className="form-group">
+                      <input type="text" name="repeatedpass" className="form-control form-control-user" onChange={(e) => RepeatPassword(e)} placeholder="Repeat Password"/>
+                    </div>
+                    <button className="btn btn-primary btn-user btn-block">Register Account</button>
+                    <hr />
+                  </form>
                   <hr />
-                  <a href="index.html" className="btn btn-google btn-user btn-block">
-                    <i className="fab fa-google fa-fw" /> Register with Google
-                  </a>
-                  <a href="index.html" className="btn btn-facebook btn-user btn-block">
-                    <i className="fab fa-facebook-f fa-fw" /> Register with Facebook
-                  </a>
-                </form>
-                <hr />
-                <div className="text-center">
-                  <a className="small" href="forgot-password.html">Forgot Password?</a>
-                </div>
-                <div className="text-center">
-                  <a className="small" href="login.html">Already have an account? Login!</a>
+                  <div className="text-center">
+                    <a className="small" >Forgot Password?</a>
+                  </div>
+                  <div className="text-center">
+                    <a className="small" >Already have an account? Login!</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
 
-export default Register;
+export default RegisterForm;
