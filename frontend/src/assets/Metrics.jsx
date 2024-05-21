@@ -1,5 +1,9 @@
 import Chart from "chart.js/auto";
 
+/**
+ * Metrics class provides methods to calculate and visualize transaction metrics.
+ */
+
 class Metrics {
   constructor(transactions, username) {
     this.transactions = transactions;

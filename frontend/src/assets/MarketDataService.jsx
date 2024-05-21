@@ -1,5 +1,10 @@
 import Chart from "chart.js/auto";
 
+/**
+ * MarketDataService class provides methods to fetch and process market data such as gold prices
+ * and exchange rates, and to generate visualizations for these data.
+ */
+
 class MarketDataService {
   constructor() {
     this.chartInstance = null;

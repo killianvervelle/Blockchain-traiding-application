@@ -3,6 +3,12 @@ import { useLocation } from "react-router-dom";
 import FabricService from "../assets/FabricService";
 import { useKeycloak } from "@react-keycloak/web";
 
+/**
+ * RequestHandler component enables methods to interact with the blockchain such as issue, transfer and redeem tokens.
+ * 
+ * @returns {JSX.Element} The rendered RequestHandler component.
+ */
+
 const RequestHandler = () => {
   const { keycloak, initialized } = useKeycloak();
   const [transactions, setTransactions] = useState([]);

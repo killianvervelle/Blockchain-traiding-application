@@ -1,5 +1,9 @@
 const API_URL = "http://localhost:8081";
 
+/**
+ * UserService class provides methods for saving user data and fetching user information from the API.
+ */
+
 class UserService {
   async saveUser(user) {
     return await fetch(API_URL + "/customer/register", {

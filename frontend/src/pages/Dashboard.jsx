@@ -3,6 +3,13 @@ import { useLocation } from "react-router-dom";
 import { useGlobalState } from "../assets/ContextHook";
 import Metrics from "../assets/Metrics";
 
+/**
+ * Dashboard component displays user-related statistics and visualizations based on transaction data, account balances, gold prices, and exchange rates.
+ * It fetches data from fabricService and marketDataService and renders various statistics and visualizations based on this data.
+ * 
+ * @returns {JSX.Element} The rendered Dashboard component.
+ */
+
 const Dashboard = () => {
   const { pathname } = useLocation();
   const [isLoading, setIsLoading] = useState(true);

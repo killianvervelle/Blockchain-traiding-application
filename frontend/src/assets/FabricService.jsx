@@ -1,6 +1,11 @@
 const OWNER_API_URL = "http://localhost:9200/api/v1/";
 const ISSUER_API_URL = "http://localhost:9100/api/v1/";
 
+/**
+ * FabricService class provides methods to interact with a blockchain-based token system.
+ * It allows issuing, transferring, redeeming tokens, and retrieving account balances and transactions.
+ */
+
 class FabricService {
   constructor(ID) {
     this.ID = ID;

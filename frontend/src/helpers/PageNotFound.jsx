@@ -1,3 +1,9 @@
+/**
+ * PageNotFound component renders a page for displaying a 404 error message when a page is not found.
+ * 
+ * @returns {JSX.Element} The rendered 404 error page component.
+ */
+
 const PageNotFound = () => {
   return (
     <section class="flex items-center h-screen p-16 bg-gray-50 dark:bg-gray-700">

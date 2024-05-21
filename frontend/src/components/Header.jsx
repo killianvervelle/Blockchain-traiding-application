@@ -1,5 +1,11 @@
 import React from "react";
 
+/**
+ * Header component renders metadata and links CSS files for the dashboard.
+ * 
+ * @returns {JSX.Element} The rendered header component.
+ */
+
 const Header = () => {
   return (
     <div>
