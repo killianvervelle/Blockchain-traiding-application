@@ -22,19 +22,40 @@ java -jar project-0.0.1-SNAPSHOT.jar
 
 The folder has several components and pages, making the code modulable and reusable. The components are rendered at each page load. In the App.jss, the content is wrapped inside <Router> which containes <Routes>. Each Route refers to a path and renders a specific page. 
 
-#### KYC benchmark
+#### Docker
+```
+docker run -v ./keycloak_data:/opt/jboss/keycloak/standalone/data/ -p 8080:8080  -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin --name my_keycloak quay.io/keycloak/keycloak:15.0.2
+```
 
-Company 1: iDenfy   
-Facial recognition  
-Document id verification   
-Every KIC done even if registered user.   
-Irland Dublin - stored cloud AWS   
-All data sent back, invariant price.   
-Json format   
-Pricing: pay for approval only, so if person rejected, not charged. Good for bad user base.   
-Include the KIC inside our pricing.   
-3 packages: startup, silver, gold   
-Price varies over number of requests.   
-Paid in 1 settlement, if request exceeds the forecasted volume, adds credit for the following year.  
-Same price for full integration or API   
-Need to take picture by camera, so hologram/fraud proofness.    
+#### FE
+
+# Getting Started with Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.

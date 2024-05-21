@@ -1,54 +1,66 @@
-import '../src/App.css';
+import "../src/App.css";
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import Navigation from './components/Navigation';
-import Dashboard from './pages/Dashboard';
-import Header from './components/Header';
-import Sign_registr from './pages/Sign_registr';
-import Transac_status from './pages/Transac_status';
-import Wallet_integ from './pages/Wallet_integ';
-import Database_integ from './pages/Database_integ';
-import Topbar from './components/Topbar';
-import Login from './pages/Login';
-import Lostpwd from './pages/Lostpwd';
-import RegisterForm from './pages/Register';
-import Charts from './pages/Charts';
-import Tables from './pages/Tables';
-import ActivityLog from './pages/ActivityLog';
-import UserProfile from './pages/UserProfile';
-import Settings from './pages/Settings';
+import { ReactKeycloakProvider } from "@react-keycloak/web";
 
+import Navigation from "./components/Navigation";
+import Dashboard from "./pages/Dashboard";
+import Header from "./components/Header";
+import RequestHandler from "./pages/RequestHandler";
+import Topbar from "./components/Topbar";
+import keycloak from "./assets/KeyCloakClient";
+import PrivateRoute from "./helpers/PrivateRoute";
+import { GlobalStateProvider } from "./assets/GlobalStateProvider";
+import PageNotFound from "./helpers/PageNotFound";
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Router>
-        <div className="side-by-side">
-          <Navigation />
-          <div className='top-by-top'>
-            <div className="topbar">
-            <Topbar />
+      <ReactKeycloakProvider authClient={keycloak}>
+        <GlobalStateProvider>
+          <Header />
+          <Router>
+            <div className="side-by-side">
+              <Navigation />
+              <div className="top-by-top">
+                <div className="topbar">
+                  <Topbar />
+                </div>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={<Navigate to="/dashboard"> </Navigate>}
+                  />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <PrivateRoute>
+                        <Dashboard />{" "}
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/request-handler"
+                    exact
+                    element={
+                      <PrivateRoute>
+                        <RequestHandler />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route path="*" element={<PageNotFound />} />
+                </Routes>
+              </div>
             </div>
-            <Routes>
-              <Route path="/dashboard" exact element={<Dashboard />} />
-              <Route path="/signature-registration" exact element={<Sign_registr />} />
-              <Route path="/transaction-status" exact element={<Transac_status />} />
-              <Route path="/wallet-integration" exact element={<Wallet_integ />} />
-              <Route path="/database-integration" exact element={<Database_integ />} />
-              <Route path="/login" exact element={<Login />} />
-              <Route path="/register" exact element={<RegisterForm />} />
-              <Route path="/lostpassword" exact element={<Lostpwd />} />
-              <Route path="/charts" exact element={<Charts />} />
-              <Route path="/tables" exact element={<Tables />} /> 
-              <Route path="/userprofile" exact element={<UserProfile />} />
-              <Route path="/settings" exact element={<Settings />} />
-              <Route path="/log" exact element={<ActivityLog />} />
-            </Routes>
-            </div>
-          </div>
-      </Router>
+          </Router>
+        </GlobalStateProvider>
+      </ReactKeycloakProvider>
     </div>
   );
 }

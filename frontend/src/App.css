@@ -1,5 +1,261 @@
 /* App.css */
-.App {
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px;
+}
+
+.container-table {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 0px 0px 0px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.content-table {
+  justify-content: space-between;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 290px;
+}
+
+.transaction-section {
+  flex: 1;
+  min-width: 100px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+#table-wrapper {
+  position: relative;
+}
+
+#table-scroll {
+  height: 350px;
+  overflow: auto;
+
+}
+
+#table-wrapper table {
+  width: 100%;
+}
+
+#table-wrapper table * {
+  background: rgb(206, 219, 245);
+  color: black;
+}
+
+.table-section table {
+  width: auto;
+  table-layout: auto;
+  overflow-x: auto;
+}
+
+.table-section table th,
+.table-section table td {
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap;
+  border: 1px solid #b8b5b5;
+}
+
+
+.input-box {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.input-box .details {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+
+.input-box input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.input-box input {
+  width: 80%;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.button input {
+  padding: 10px 20px;
+  background-color: #4e73df;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button input:hover {
+  background-color: #2e59d9;
+}
+
+.container .title {
+  font-size: 25px;
+  font-weight: 500;
+  position: relative;
+  font-size: 14px;
+}
+
+.container .title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+.content form .user-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0 12px 0;
+}
+
+form .user-details .input-box {
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+
+form .input-box span.details {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.user-details .input-box input {
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid {
+  border-color: #9b59b6;
+}
+
+form .gender-details .gender-title {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .category {
+  display: flex;
+  width: 80%;
+  margin: 14px 0;
+  justify-content: space-between;
+}
+
+form .category label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+form .category label .dot {
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background: #d9d9d9;
+  border: 5px solid transparent;
+  transition: all 0.3s ease;
+}
+
+#dot-1:checked~.category label .one,
+#dot-2:checked~.category label .two,
+#dot-3:checked~.category label .three {
+  background: #9b59b6;
+  border-color: #d9d9d9;
+}
+
+form input[type="radio"] {
+  display: none;
+}
+
+form .button {
+  height: 45px;
+  margin: 35px 0
+}
+
+form .button input {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+form .button input:hover {
+  /* transform: scale(0.99); */
+  background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+}
+
+@media(max-width: 584px) {
+  .container {
+    max-width: 100%;
+  }
+
+  form .user-details .input-box {
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  form .category {
+    width: 100%;
+  }
+
+  .content form .user-details {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+
+  .user-details::-webkit-scrollbar {
+    width: 5px;
+  }
+}
+
+@media(max-width: 459px) {
+  .container .content .category {
+    flex-direction: column;
+  }
 }
 
 .filled {
@@ -60,6 +316,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
