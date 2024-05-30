@@ -9,8 +9,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupplierDto {
+public class IssuanceRequestDto {
     private Long id;
-    private String company_name;
-    private String email;
+    private String initiator;
+    private String date;
+    private String token_id;
+    private String amount;
+    private String issuer;
+    private String status;
 }

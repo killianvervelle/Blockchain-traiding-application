@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.slf4j.Logger;
 
+// Configuration class for Cross-Origin Resource Sharing (CORS)
 @Configuration
 @EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
@@ -22,6 +23,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "http://localhost:3000/",
                         "http://localhost:8080/",
+                        "http://localhost:8090/",
                         "http://localhost:8081/",
                         "http://localhost:3306")
                 .allowedMethods("POST", "GET", "DELETE", "PUT")

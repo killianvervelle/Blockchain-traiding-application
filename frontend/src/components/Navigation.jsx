@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 /**
  * Navigation component renders a sidebar navigation menu for the dashboard application.
- * 
- * @returns {JSX.Element} The rendered navigation component.
  */
 
 const Navigation = () => {

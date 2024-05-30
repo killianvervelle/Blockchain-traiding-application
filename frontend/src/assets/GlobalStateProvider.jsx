@@ -1,7 +1,9 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
+
 import FabricService from "../assets/FabricService";
 import MarketDataService from "./MarketDataService";
+import RequestService from "./RequestService";
 
 /**
  * GlobalStateContext provides a context for the global state of the application.
@@ -11,7 +13,7 @@ export const GlobalStateContext = createContext();
 
 /**
  * GlobalStateProvider component is responsible for managing and providing the global state.
- * It initializes services and fetches initial data upon authentication.
+ * It initializes services upon authentication.
  *
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The child components that will consume the global state.
@@ -20,10 +22,9 @@ export const GlobalStateContext = createContext();
 
 export const GlobalStateProvider = ({ children }) => {
   const { keycloak, initialized } = useKeycloak();
-  const [transactions, setTransactions] = useState([]);
-  const [ fabricService, setFabricService] = useState([]);
-  const [ marketDataService, setMarketDataService] = useState([]);
-
+  const [fabricService, setFabricService] = useState([]);
+  const [marketDataService, setMarketDataService] = useState([]);
+  const [requestService, setRequestServicee] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,13 +33,13 @@ export const GlobalStateProvider = ({ children }) => {
           const fabricService = new FabricService(
             keycloak.tokenParsed.preferred_username
           );
-          setFabricService(fabricService)
-          const marketDataService = new MarketDataService()
-          setMarketDataService(marketDataService)
-          const transactionsData = await fabricService.GetAccountTransactions();
-          setTransactions(transactionsData.payload || []);
+          setFabricService(fabricService);
+          const marketDataService = new MarketDataService();
+          setMarketDataService(marketDataService);
+          const requestService = new RequestService(fabricService);
+          setRequestServicee(requestService)
         } catch (error) {
-          console.log("Error fetching data:", error);
+          console.log(error);
         }
       }
     }
@@ -47,7 +48,9 @@ export const GlobalStateProvider = ({ children }) => {
   }, [initialized, keycloak]);
 
   return (
-    <GlobalStateContext.Provider value={{ transactions, keycloak, fabricService, marketDataService }}>
+    <GlobalStateContext.Provider
+      value={{ fabricService, marketDataService, requestService }}
+    >
       {children}
     </GlobalStateContext.Provider>
   );

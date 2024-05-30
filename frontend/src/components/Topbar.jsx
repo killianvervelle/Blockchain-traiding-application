@@ -4,8 +4,7 @@ import { useEffect } from "react";
 /**
  * Topbar component represents the top bar of a dashboard application.
  * It includes user authentication-related functionalities and displays user information if authenticated.
- * 
- * @returns {JSX.Element} The rendered top bar component.
+
  */
 
 const Topbar = () => {
