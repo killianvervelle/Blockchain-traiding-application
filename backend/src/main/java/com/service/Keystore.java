@@ -27,7 +27,7 @@ public class Keystore {
     @Autowired
     private IssuanceRequestRepository issuanceRequestRepository;
 
-    private static final String KEYSTORE_PATH = "backend/src/keystore.jks";
+    private static final String KEYSTORE_PATH = "src/keystore.jks";
     private static final String KEYSTORE_PASSWORD = "keystorepassword";
     private static final char[] password = KEYSTORE_PASSWORD.toCharArray();
 
@@ -43,28 +43,35 @@ public class Keystore {
                 try (FileInputStream fis = new FileInputStream(keystoreFile)) {
                     keyStore.load(fis, password);
                 }
+                Enumeration<String> aliases = keyStore.aliases();
+                String lastAlias = null;
+                while (aliases.hasMoreElements()) {
+                    lastAlias = aliases.nextElement();
+                }
+                Key lastKey = keyStore.getKey(lastAlias, KEYSTORE_PASSWORD.toCharArray());
+                System.out.println("Last Retrieved Key: " + lastKey + " with following alias: " + lastAlias);
+                Key newKey = generateSymmetricKey();
+                String alias = generateRandomAlias();
+                System.out.println("New Key: " + newKey + " with following alias: " + alias);
+                reEncryptData(lastKey, newKey);
+                System.out.println("Data succcessfully re-encrypted with new key");
+                // Empty keystore
+                keyStore.load(null, null);
+                // Add new key
+                keyStore.setKeyEntry(alias, newKey, password, null);   
+                setCurrentKey(newKey);
             } else {
                 keyStore.load(null, password);
                 System.out.println("KeyStore file created successfully.");
+                // Generate new key and alias
+                Key newKey = generateSymmetricKey();
+                String alias = generateRandomAlias();
+                System.out.println("New Key: " + newKey + " with following alias: " + alias);
+                // Add new key
+                keyStore.setKeyEntry(alias, newKey, password, null);
+                setCurrentKey(newKey);
             }
             // Retrieve the last key to decrypt data before re-encrypting it with the new key.
-            Enumeration<String> aliases = keyStore.aliases();
-            String lastAlias = null;
-            while (aliases.hasMoreElements()) {
-                lastAlias = aliases.nextElement();
-            }
-            Key lastKey = keyStore.getKey(lastAlias, KEYSTORE_PASSWORD.toCharArray());
-            System.out.println("Last Retrieved Key: " + lastKey + " with following alias: " + lastAlias);
-            Key newKey = generateSymmetricKey();
-            String alias = generateRandomAlias();
-            System.out.println("New Key: " + newKey + " with following alias: " + alias);
-            reEncryptData(lastKey, newKey);
-            System.out.println("Data succcessfully re-encrypted with new key");
-            // Empty keystore
-            keyStore.load(null, null);
-            // Add new key
-            keyStore.setKeyEntry(alias, newKey, password, null);   
-            setCurrentKey(newKey);
             try (FileOutputStream fos = new FileOutputStream(KEYSTORE_PATH)) {
                 keyStore.store(fos, password);
                 System.out.println("KeyStore file saved successfully.");
@@ -78,6 +85,10 @@ public class Keystore {
     private void reEncryptData(Key lastKey, Key newKey) throws Exception {
         // Fetch data from the database (initiator and amount)
         List<IssuanceRequest> ListIssuanceRequest = issuanceRequestRepository.findAll();
+        if (ListIssuanceRequest.isEmpty()) {
+            System.out.println("IssuanceRequest list is empty. Skipping decryption and encryption.");
+            return;
+        }
         // Re-encrypt initiator and amount data with the new key
         for (IssuanceRequest issuanceRequest : ListIssuanceRequest) {
             String initiator = issuanceRequest.getInitiator();

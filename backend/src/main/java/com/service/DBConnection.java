@@ -11,7 +11,7 @@ public class DBConnection {
 
     public static Connection DatabaseConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/users", "root", "kech1991");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/users", "root", "rootpassword");
         }
         return connection;
     }

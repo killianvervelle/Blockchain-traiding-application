@@ -1,30 +1,20 @@
-FROM node:18 as keycloakify_jar_builder
+# Use the Keycloak base image
+FROM quay.io/keycloak/keycloak:24.0.4
 
-RUN apt-get update && \
-    apt-get install -y maven;
+# Set environment variables
+ENV KEYCLOAK_ADMIN=admin \
+    KEYCLOAK_ADMIN_PASSWORD=admin
 
-COPY ./keycloakify-starter/package.json ./keycloakify-starter/yarn.lock /opt/app/
+# Expose the Keycloak port
+EXPOSE 8096
 
-WORKDIR /opt/app
+# Set the working directory
+WORKDIR /opt/jboss/keycloak/standalone
 
-RUN yarn install --frozen-lockfile
+COPY ./alfresco-keycloak-theme /opt/keycloak/themes/
 
-COPY ./keycloakify-starter/ /opt/app/
+# Mount the volume
+VOLUME /opt/jboss/keycloak/standalone/data
 
-RUN yarn build-keycloak-theme
-
-FROM quay.io/keycloak/keycloak:latest as builder
-
-WORKDIR /opt/keycloak
-
-COPY --from=keycloakify_jar_builder /opt/app/dist_keycloak/target/keycloakify-starter-keycloak-theme-6.1.8.jar /opt/keycloak/providers/ 
-
-COPY --from=keycloakify_jar_builder /opt/app/dist_keycloak/target/keycloakify-starter-keycloak-theme-6.1.8.jar /opt/keycloak/themes/
-
-FROM quay.io/keycloak/keycloak:latest
-
-COPY --from=builder /opt/keycloak/ /opt/keycloak/
-
-ENV KC_HOSTNAME=localhost
-
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh", "start-dev"]
+# Command to start Keycloak in dev mode
+CMD ["start-dev"]
