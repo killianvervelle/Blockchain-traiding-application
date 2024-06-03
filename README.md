@@ -41,29 +41,29 @@ mvn package
 # Run the JAR file
 java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```
-The backend is now running and can receive requests from the frontend.
+The backend is now operational and ready to receive requests from the frontend.
 
-#### Running the Fabric blockchain and token sdk (Hyperledger)
+#### Running the Fabric blockchain and Token SDK from Hyperledger
 Prerequisites:
 - bash
 - golang 1.20+
 - git
 - docker v26.1.1
-- docker-compose v2.27.0
-Start by cloning the project repository: https://github.com/hyperledger/fabric-samples.git.
-Install dependencies: 
+- docker-compose v2.27.0    
+
+Start by cloning the project repository: https://github.com/hyperledger/fabric-samples.git and installing the dependencies: 
 ```
 # From the fabric-samples directory
 curl -sSLO https://raw.githubusercontent.com/hyperledger/fabric/main/scripts/install-fabric.sh && chmod +x install-fabric.sh
 ./install-fabric.sh docker binary
-# Make sure that the new binaries are in your path. Change the following line (replace <your/path/to/> with the actual path) and add it to your ~/.bashrc or ~/.zshrc file. Restart your terminal or source the edited file.
+# Make sure that the new binaries are in your PATH. If not, change the following line (replace <your/path/to/> with the actual path) and add it to your ~/.bashrc or ~/.zshrc file. Restart your terminal or source the edited file.
 export PATH=</your/path/to/>fabric-samples/bin:$PATH
-# Validate that the CA is at 1.5.7 by executing fabric-ca-client version.
+# Validate that the CA is at v1.5.7 by executing ```fabric-ca-client version```.
 export TEST_NETWORK_HOME=</your/path/to>/fabric-samples/test-network
 # Install tokengen. Tokengen is a tool to create the configuration file for the token chaincode.
 go install github.com/hyperledger-labs/fabric-token-sdk/cmd/tokengen@v0.3.0
 ```
-Start the network. This generates the crypto material, starts Fabric, deploys the chaincode, and starts the token nodes.
+Start the network. This generates the cryptogtaphic material, configures and starts the network, deploys the chaincode, and runs the token nodes.
 ```
 ./scripts/up.sh
 ```
@@ -82,7 +82,7 @@ To stop the network and delete everything, run:
 ```
 ./scripts/down.sh
 ```
-The network and token SDK are now running and can receives requests from the frontend.
+The network and token SDKs are now operational and can handle requests from the frontend.
 
 #### Running the Keycloak identity service provider
 ```
@@ -92,8 +92,8 @@ docker build -t my-keycloak .
 # Run the docker container
 docker run -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8096:8080 my-keycloak
 ```
-- Navigate to http://localhost:8096/admin. Set Username and password to "admin". You are now inside the service provider's admin console.
-- Go to Realm Settings, User profile, Create attribute. Set Attribute Name to "Type" and display name to "${type}". Select "Required field" and provide Permission to all. Create.
+- Navigate to http://localhost:8096/admin and set the username and password to <admin>. You are now inside the service provider's admin console.
+- Go to <Realm Settings> -> <User profile> -> <Create attribute>. Set Attribute Name to "Type" and display name to "${type}". Select "Required field" and provide Permission to all. Create.
 - Click on , Create Client. Set the client ID to "React-auth". Next. Next. Set Root Url to "http://localhost:3000/".
 - Click on Clients, Create Client. Set the client ID to "React-auth". Next. Next. Set Root Url to "http://localhost:3000/".
 - Click on Client scopes, Create client scope. Select profil in the list Name, Mappers, Add mapper, by Configuration. Select User Attribute and set Name to "Type". Select "Type" in the User Attribute list, set token claim Name to "type" and finish by selecting "Add to lightweight access token". Save.
