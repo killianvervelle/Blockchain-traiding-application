@@ -92,8 +92,8 @@ docker build -t my-keycloak .
 # Run the docker container
 docker run -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8096:8080 my-keycloak
 ```
-- Navigate to http://localhost:8096/admin and set the username and password to <admin>. You are now inside the service provider's admin console.
-- Go to <Realm Settings> -> <User profile> -> <Create attribute>. Set Attribute Name to "Type" and display name to "${type}". Select "Required field" and provide Permission to all. Create.
+- Navigate to http://localhost:8096/admin and set the username and password to `admin`. You are now inside the service provider's admin console.
+- Go to ``Realm Settings`` -> ``User profile`` -> ``Create attribute``. Set Attribute Name to "Type" and display name to "${type}". Select "Required field" and provide Permission to all. Create.
 - Click on , Create Client. Set the client ID to "React-auth". Next. Next. Set Root Url to "http://localhost:3000/".
 - Click on Clients, Create Client. Set the client ID to "React-auth". Next. Next. Set Root Url to "http://localhost:3000/".
 - Click on Client scopes, Create client scope. Select profil in the list Name, Mappers, Add mapper, by Configuration. Select User Attribute and set Name to "Type". Select "Type" in the User Attribute list, set token claim Name to "type" and finish by selecting "Add to lightweight access token". Save.
