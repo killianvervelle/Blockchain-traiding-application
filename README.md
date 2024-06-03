@@ -2,7 +2,7 @@
 
 This project merges blockchain technology, specifically Hyperledger Fabric and Fabric Token SDK, with Spring Boot, React, and MySQL. The application offers users the opportunity to seamlessly exchange their local currency for gold-backed tokens and conduct international settlements. By leveraging the transparency and security of blockchain, users can trust in the integrity of their transactions while benefiting from the stability of gold-backed assets. With a modular architecture encompassing frontend, backend, blockchain, and database layers, the application ensures a user-friendly experience while providing a reliable platform for currency trading and settlements.
 
-#### Running the frontend (React)
+#### Running the frontend in React
 Prerequisites:
 - Node.js: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 - npm: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
@@ -13,11 +13,11 @@ npm install
 # Run the frontend
 npm start   
 ```
-#### Running the MySQL database with docker
+#### Running the MySQL database in Docker
 Prerequisites:
 - MySQL: https://dev.mysql.com/downloads/installer/
 - MySQL workbench: https://dev.mysql.com/downloads/workbench/
-- docker: https://docs.docker.com/get-docker/
+- docker v26.1.1: https://docs.docker.com/get-docker/
 ```
 cd my-sql
 # Build the docker image
@@ -28,7 +28,7 @@ docker run --name my-mysql-container -p 3307:3306 -e MYSQL_ROOT_PASSWORD=rootpas
 Create a New Connection: In MySQL Workbench, go to the "Database" menu and select "Manage Connections." Click on the "New" button to create a new connection.
 Enter Connection Details: Provide a random name for your connection. Set the username to "root". Change the port to 3307. Test connection. Set password to "rootpassword". If successfull, connect. The backend can now perform CRUD operations to the database.
 
-#### Running the backend (Springboot)
+#### Running the backend in Spring Boot
 Prerequisites:
 - Maven: https://maven.apache.org/download.cgi
 - Java Development Kit 17 (JDK 17): https://www.oracle.com/fr/java/technologies/downloads/
@@ -47,8 +47,8 @@ Prerequisites:
 - bash
 - golang 1.20+
 - git
-- docker
-- docker-compose
+- docker v26.1.1
+- docker-compose v2.27.0
 Start by cloning the project repository: https://github.com/hyperledger/fabric-samples.git.
 Install dependencies: 
 ```
