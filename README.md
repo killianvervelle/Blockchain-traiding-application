@@ -25,8 +25,13 @@ docker build -t my-mysql .
 # Run the docker container
 docker run --name my-mysql-container -p 3307:3306 -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=users -d my-mysql
 ```
-Create a New Connection: In MySQL Workbench, go to the "Database" menu and select "Manage Connections." Click on the "New" button to create a new connection.
-Enter Connection Details: Provide a random name for your connection. Set the username to "root". Change the port to 3307. Test connection. Set password to "rootpassword". If successfull, connect. The backend can now perform CRUD operations to the database.
+
+Open MySQL workbench and create a ``New Connection``:
+- Go to the ``Database menu`` -> ``Manage Connections`` -> ``New``.
+- Enter connection details by providing a random name for your connection. Set the ``username = root``, the ``port number = 3307``. 
+- ``Test your connection``. Set ``password = rootpassword``. If successfull, ``connect``.     
+
+The database is now fully operational and ready to handle CRUD operations from the backend.
 
 #### Running the backend in Spring Boot
 Prerequisites:
@@ -93,10 +98,10 @@ docker build -t my-keycloak .
 docker run -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8096:8080 my-keycloak
 ```
 - Navigate to http://localhost:8096/admin and set the username and password to `admin`. You are now inside the service provider's admin console.
-- Go to ``Realm Settings`` -> ``User profile`` -> ``Create attribute``. Set ``Attribute Name`` to ``Type`` and ``display name`` to ``${type}``. Select ``Required field`` and provide Permission to all. Create.
-- Click on ``Clients`` -> ``Create Client``. Set the ``client ID`` to ``React-auth``. Click on ``Next`` and set ``Root Url`` to "http://localhost:3000/".
-- Click on ``Client scopes`` -> ``Create client scope``. Select ``profil`` in the list Name -> ``Mappers`` -> ``Add mapper by Configuration`` -> ``User Attribute``. Set ``Name`` to ``Type``. Select ``Type`` in the User Attribute list, set token claim Name to "type" and finish by selecting "Add to lightweight access token". Save.
-- Click on Users, Create New User. Select "Email verified". Set Username as "sender" and Type as "customer". Set Credentials to "sender" and untick "Temporary".
-- Click on Users, Create New User. Select "Email verified". Set Username as "receiver" and Type as "customer". Set Credentials to "receiver" and untick "Temporary".
-- Click on Users, Create New User. Select "Email verified". Set Username as "issuer" and Type as "supplier". Set Credentials to "issuer" and untick "Temporary".
-- Go to Realm Settings, click on Themes and select as Login Theme "themeLast2". This theme was customized for our application.
+- Go to ``Realm Settings`` -> ``User profile`` -> ``Create attribute``. Set ``Attribute Name = Type`` and ``display name = ${type}``. Select ``Required field`` and provide Permission to all. Create.
+- Go to ``Clients`` -> ``Create Client``. Set the ``client ID = React-auth``. Go to ``Next`` and set ``Root Url = http://localhost:3000/``.
+- Go to ``Client scopes`` -> ``Create client scope``. Select ``profil`` in the list Name -> ``Mappers`` -> ``Add mapper by Configuration`` -> ``User Attribute``. Set ``Name = Type``. Select ``Type`` in the User Attribute list, set ``token claim Name = type`` and finish by selecting ``Add to lightweight access token``. Save.
+- Go to ``Users`` -> ``Create New User``. Select ``Email verified`` and set ``Username = sender``, ``Type = customer``, ``Credentials = sender`` and untick ``Temporary``.
+- Go to ``Users`` -> ``Create New User``. Select ``Email verified`` and set ``Username = receiver``, ``Type = receiver``, ``Credentials = receiver`` and untick ``Temporary``.
+- Go to ``Users`` -> ``Create New User``. Select ``Email verified`` and set ``Username = issuer``, ``Type = issuer``, ``Credentials = issuer`` and untick ``Temporary``.
+- Go to ``Realm Settings`` -> ``Themes`` and set ``Login Theme = themeLast2``. This theme was customized specifically for our application. If you wish to tailor it to your own needs, please use the Keycloakifier framework.
