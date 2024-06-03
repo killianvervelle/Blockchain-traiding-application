@@ -31,7 +31,8 @@ Enter Connection Details: Provide a random name for your connection. Set the use
 #### Running the backend in Spring Boot
 Prerequisites:
 - Maven: https://maven.apache.org/download.cgi
-- Java Development Kit 17 (JDK 17): https://www.oracle.com/fr/java/technologies/downloads/
+- Java Development Kit 17 (JDK 17): https://www.oracle.com/fr/java/technologies/downloads/    
+
 Ensure you have both their paths added to your PATH variables.
 ```
 cd backend
