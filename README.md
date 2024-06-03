@@ -27,9 +27,9 @@ docker run --name my-mysql-container -p 3307:3306 -e MYSQL_ROOT_PASSWORD=rootpas
 ```
 
 Open MySQL workbench and create a new connection:
-- Go to the ***Database menu*** -> ***Manage Connections*** -> ***New***.
-- Enter connection details by providing a random name for your connection. Set the ***username*** to ***root***, the ***port number*** to ***3307***. 
-- ***Test your connection***. Set ***password*** to ***rootpassword***. If successfull, ***connect***.     
+- Go to the `Database menu` -> `Manage Connections` -> `New`.
+- Enter connection details by providing a random name for your connection. Set the `username` to `root`, the `port number` to `3307`. 
+- `Test your connection`. Set `password` to `rootpassword`. If successfull, `connect`.     
 
 The database is now fully operational and ready to handle CRUD operations from the backend.
 
@@ -98,11 +98,11 @@ docker build -t my-keycloak .
 # Run the docker container
 docker run -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8096:8080 my-keycloak
 ```
-- Navigate to http://localhost:8096/admin and set the username and password to ***admin***. You are now inside the service provider's admin console.
-- Go to ***Realm Settings*** -> ***User profile*** -> ***Create attribute***. Set ***Attribute Name*** to ***Type*** and ***display name*** to ***${type}***. Select ***Required field*** and provide Permission to all. Create.
-- Go to ***Clients*** -> ***Create Client***. Set the ***client ID*** to ***React-auth***. Go to ***Next*** and set ***Root Url*** to ***http://localhost:3000/***.
-- Go to ***Client scopes*** -> ***Create client scope***. Select ***profil*** in the list Name -> ***Mappers*** -> ***Add mapper by Configuration*** -> ***User Attribute***. Set ***Name*** to ***Type***. Select ***Type*** in the User Attribute list, set ***token claim Name*** to ***type*** and finish by selecting ***Add to lightweight access token***. Save.
-- Go to ***Users*** -> ***Create New User***. Select ***Email verified*** and set ***Username*** to ***sender***, ***Type*** to ***customer***, ***Credentials*** to ***sender*** and untick ***Temporary***.
-- Go to ***Users*** -> ***Create New User***. Select ***Email verified*** and set ***Username*** to ***receiver***, ***Type*** to ***receiver***, ***Credentials*** to ***receiver*** and untick ***Temporary***.
-- Go to ***Users*** -> ***Create New User***. Select ***Email verified*** and set ***Username*** to ***issuer***, ***Type*** to ***issuer***, ***Credentials*** to ***issuer*** and untick ***Temporary***.
-- Go to ***Realm Settings*** -> ***Themes*** and set ***Login Theme*** to ***themeLast2***. This theme was customized specifically for our application. If you wish to tailor it to your own needs, please use the Keycloakifier framework.
+- Navigate to http://localhost:8096/admin and set the `username` and `password` to `admin`. You are now inside the service provider's admin console.
+- Go to `Realm Settings` -> `User profile` -> `Create attribute`. Set `Attribute Name` to `Type` and `display name` to `${type}`. Select `Required field` and provide Permission to all. Create.
+- Go to `Clients` -> `Create Client`. Set the `client ID` to `React-auth`. Go to `Next` and set `Root Url` to `http://localhost:3000/`.
+- Go to `Client scopes` -> `Create client scope`. Select `profil` in the list Name -> `Mappers` -> `Add mapper by Configuration` -> `User Attribute`. Set `Name` to `Type`. Select `Type` in the User Attribute list, set `token claim Name` to `type` and finish by selecting `Add to lightweight access token`. Save.
+- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `sender`, `Type` to `customer`, `Credentials` to `sender` and untick `Temporary`.
+- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `receiver`, `Type` to `receiver`, `Credentials` to `receiver` and untick `Temporary`.
+- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `issuer`, `Type` to `issuer`, `Credentials` to `issuer` and untick `Temporary`.
+- Go to `Realm Settings` -> `Themes` and set `Login Theme` to `themeLast2`. This theme was customized specifically for our application. If you wish to tailor it to your own needs, please use the Keycloakifier framework.
