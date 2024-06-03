@@ -26,8 +26,8 @@ docker build -t my-mysql .
 docker run --name my-mysql-container -p 3307:3306 -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=users -d my-mysql
 ```
 
-Open MySQL workbench and create a **New Connection**:
-- Go to the **Database menu** -> **Manage Connections** -> **New**.
+Open MySQL workbench and create a *New Connection*:
+- Go to the ***Database menu*** -> **Manage Connections** -> **New**.
 - Enter connection details by providing a random name for your connection. Set the **username = root**, the **port number = 3307**. 
 - **Test your connection**. Set **password = rootpassword**. If successfull, **connect**.     
 
