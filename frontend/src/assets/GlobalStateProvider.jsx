@@ -24,7 +24,7 @@ export const GlobalStateProvider = ({ children }) => {
   const { keycloak, initialized } = useKeycloak();
   const [fabricService, setFabricService] = useState([]);
   const [marketDataService, setMarketDataService] = useState([]);
-  const [requestService, setRequestServicee] = useState([]);
+  const [requestService, setRequestService] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -37,7 +37,7 @@ export const GlobalStateProvider = ({ children }) => {
           const marketDataService = new MarketDataService();
           setMarketDataService(marketDataService);
           const requestService = new RequestService(fabricService);
-          setRequestServicee(requestService)
+          setRequestService(requestService)
         } catch (error) {
           console.log(error);
         }

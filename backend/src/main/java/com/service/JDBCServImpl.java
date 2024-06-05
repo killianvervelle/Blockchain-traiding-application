@@ -36,13 +36,13 @@ public class JDBCServImpl implements JDBCService {
     }
 
     @Override
-    public List<List<String>> extractHandledRequestsByIssuer(String issuer) {
+    public List<List<String>> extractHandledRequestsByIssuer(String supplier) {
         List<List<String>> resultList = new ArrayList<>();
         try {
             Connection connection = DBConnection.DatabaseConnection();
             PreparedStatement preparedStatement = connection
                     .prepareStatement("SELECT * FROM users.transactions WHERE issuer = ?");
-            preparedStatement.setString(1, issuer);
+            preparedStatement.setString(1, supplier);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             ResultSetMetaData metaData = resultSet.getMetaData();

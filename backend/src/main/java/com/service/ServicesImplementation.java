@@ -130,12 +130,13 @@ public class ServicesImplementation implements Services {
 
     // Method to get all issuance requests fullfilled by a specific issuer
     @Override
-    public List<IssuanceRequestDto> GetAllIssuanceRequestsByIssuer(String issuer) {
-        List<List<String>> RequestsByIssuer = jdbcService.extractHandledRequestsByIssuer(issuer);
+    public List<IssuanceRequestDto> GetAllIssuanceRequestsByIssuer(String supplier) {
+        List<List<String>> RequestsByIssuer = jdbcService.extractHandledRequestsByIssuer(supplier);
         Key key = keystore.getCurrentKey();
         List<IssuanceRequest> ListIssuanceRequests = RequestsByIssuer.stream()
                 .map(this::mapRowToIssuanceRequest)
                 .collect(Collectors.toList());
+
         return ListIssuanceRequests.stream()
                 .filter(issuanceRequest -> "Fulfilled".equals(issuanceRequest.getStatus()))
                 .map((issuanceRequest) -> Mapper.maptoIssuanceRequestDto(issuanceRequest))

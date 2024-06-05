@@ -34,8 +34,8 @@ public class Mapper {
                 issuanceRequestDto.getDate(),
                 issuanceRequestDto.getToken_id(),
                 issuanceRequestDto.getAmount(),
-                issuanceRequestDto.getIssuer(),
-                issuanceRequestDto.getStatus());
+                issuanceRequestDto.getStatus(),
+                issuanceRequestDto.getIssuer());
     }
 
     // Method to map IssuanceRequest entity to IssuanceRequestDto

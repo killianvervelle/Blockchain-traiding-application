@@ -14,16 +14,13 @@
 }
 
 .row2 {
-  display: flex;
-  width: 40%;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  width: 100%;
 }
 
 
 .col2 {
   flex: 1;
-  margin: 0 10px;
+  margin: 0 5px;
 }
 
 .container-more {
@@ -50,13 +47,14 @@
 .content-t {
   display: flex;
   flex-direction: line;
+  padding-left: 30px;
 }
 
 .content2 {
   display: flex;
   width: 105%;
   flex-wrap: wrap;
-  font-size: 14px;
+  font-size: 12px;
   padding-left: 100px;
   padding-top: 32px;
 }
@@ -76,7 +74,8 @@
   align-items: flex-start;
   padding: 20px 0px 0px 0px;
   width: 155%;
-  min-height: 39vh;
+  min-height: 42vh;
+  overflow: auto;
   gap: 20px;
   position: relative;
   background-color: #4e73df;
@@ -87,11 +86,13 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px 60px 0px 0px;
-  width: 110%;
-  min-height: 39vh;
+  padding: 20px 0px 0px 0px;
+  width: 105%;
+  padding-right: 63px;
+  min-height: 42vh;
   gap: 20px;
   position: relative;
+  overflow: auto;
   background-color: #4e73df;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 3.5);
   color: White;
@@ -123,9 +124,9 @@ thead {
 .transaction-section2 {
   flex: 1;
   margin: 5px;
-  padding: 30px;
+  padding: 0px;
   border-radius: 5px;
-  font-size: 14px;
+  
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -146,6 +147,7 @@ thead {
   height: 300px;
   overflow: auto;
   overflow-x: hidden;
+  font-size: 12px;
 
 }
 
@@ -190,7 +192,7 @@ thead {
 
 .input-box {
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -198,21 +200,14 @@ thead {
 .input-box .details {
   display: block;
   margin-bottom: 3px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .input-box input {
-  width: calc(100% - 20px);
-  padding: 8px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.input-box input {
-  width: 100%;
+  width: 130%;
   padding: 10px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .button input {

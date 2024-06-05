@@ -41,7 +41,7 @@ const RequestHandler = () => {
     };
 
     fetchdata();
-  }, [fabricService]);
+  }, [keycloak, requestService, fabricService]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -55,7 +55,7 @@ const RequestHandler = () => {
             <div class="content-t">
               <div className="row2">
                 <div class="col transaction-section2">
-                  <h5>Issuance Request</h5>
+                  <h6>Issuance Request</h6>
                   <div class="input-box">
                     <span class="details">Amount</span>
                     <input
@@ -91,7 +91,7 @@ const RequestHandler = () => {
                   </div>
                 </div>
                 <div class="col transaction-section2">
-                  <h5>Redeem Tokens</h5>
+                  <h6>Redeem Tokens</h6>
                   <div class="input-box">
                     <span class="details">Amount</span>
                     <input
@@ -126,7 +126,7 @@ const RequestHandler = () => {
                   </div>
                 </div>
                 <div class="col transaction-section2">
-                  <h5>Transfer Tokens</h5>
+                  <h6>Transfer Tokens</h6>
                   <div class="input-box">
                     <span class="details">Amount</span>
                     <input
@@ -176,9 +176,9 @@ const RequestHandler = () => {
 
               <div className="col2">
                 <div class="content2">
-                  <h5>
+                  <h6>
                     Requests From {keycloak.tokenParsed.preferred_username}
-                  </h5>
+                  </h6>
                   <div className="container-table">
                     <div class="table-section">
                       <div id="table-wrapper">
@@ -224,8 +224,8 @@ const RequestHandler = () => {
               <>
                 <div className="row">
                   <div className="col">
-                    <div class="transaction-section2">
-                      <h5>Issue Tokens</h5>
+                    <div class="transaction-section2" style={{paddingRight:"90px"}}>
+                      <h6>Issue Tokens</h6>
                       <div class="input-box">
                         <span class="details">Request ID</span>
                         <input
@@ -287,7 +287,7 @@ const RequestHandler = () => {
                   <div className="col">
                     <div className="container-stacked">
                       <div class="transaction-section2">
-                        <h5>Open Requests</h5>
+                        <h6>Open Requests</h6>
                         <div className="container-table2">
                           <div class="table-section">
                             <div id="table-wrapper" style={{ width: "110%" }}>
@@ -337,10 +337,10 @@ const RequestHandler = () => {
                       </div>
                       <div className="row">
                         <div class="transaction-section2">
-                          <h5>
+                          <h6>
                             Requests fullfilled by{" "}
                             {keycloak.tokenParsed.preferred_username}
-                          </h5>
+                          </h6>
                           <div className="container-table2">
                             <div class="table-section">
                               <div id="table-wrapper" style={{ width: "110%" }}>
@@ -378,7 +378,7 @@ const RequestHandler = () => {
                                           )
                                         ) : (
                                           <tr>
-                                            <td colSpan="6">Data loading..</td>
+                                            <td colSpan="7">Data loading..</td>
                                           </tr>
                                         )}
                                       </tbody>

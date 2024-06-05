@@ -11,7 +11,8 @@ class FabricService {
   }
 
   async issueTokens(data) {
-    console.log("Tokens being issued to: " + this.ID);
+    console.log("DATA", parseInt(data.amount))
+    console.log("Tokens being issued from: " + this.ID);
     const response = await fetch(this.ISSUER_API_URL + "issuer/issue", {
       method: "POST",
       headers: {

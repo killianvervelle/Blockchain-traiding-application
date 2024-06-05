@@ -26,6 +26,6 @@ public class IssuanceRequest {
     private String date;
     private String token_id;
     private String amount;
-    private String issuer;
     private String status;
+    private String issuer;
 }

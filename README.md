@@ -79,16 +79,10 @@ Start the network. This generates the cryptogtaphic material, configures and sta
 ```
 ./scripts/up.sh
 ```
-Enroll and register the issuer, receiver and sender involved in our use case and registered in Keycloak's identity service provider.
+By default, Alice and Bob are already enrolled. However, if you wish to enroll and register a new user, run:
 ```
-fabric-ca-client register -u http://localhost:27054 --id.name sender --id.secret password --id.type client
-fabric-ca-client enroll -u http://sender:password@localhost:27054 -M "$(pwd)/keys/sender/aud/msp"
-
-fabric-ca-client register -u http://localhost:27054 --id.name receiver --id.secret password --id.type client
-fabric-ca-client enroll -u http://receiver:password@localhost:27054 -M "$(pwd)/keys/receiver/aud/msp"
-
-fabric-ca-client register -u http://localhost:27054 --id.name issuer --id.secret password --id.type client
-fabric-ca-client enroll -u http://issuer:password@localhost:27054 -M "$(pwd)/keys/issuer/aud/msp"
+fabric-ca-client register -u http://localhost:27054 --id.name newUser --id.secret password --id.type client --enrollment.type idemix --idemix.curve gurvy.Bn254
+fabric-ca-client enroll -u http://newUser:password@localhost:27054 -M "$(pwd)/keys/owner1/wallet/newUser/msp" --enrollment.type idemix --idemix.curve gurvy.Bn254
 ```
 To stop the network and delete everything, run:
 ```
@@ -108,7 +102,7 @@ docker run -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -p 8099:8080
 - Go to `Realm Settings` -> `User profile` -> `Create attribute`. Set `Attribute Name` to `Type` and `display name` to `${type}`. Select `Required field` and provide Permission to all. Create.
 - Go to `Clients` -> `Create Client`. Set the `client ID` to `React-auth`. Go to `Next` and set `Root Url` to `http://localhost:3000/`.
 - Go to `Client scopes` -> `Create client scope`. Select `profil` in the list Name -> `Mappers` -> `Add mapper by Configuration` -> `User Attribute`. Set `Name` to `Type`. Select `Type` in the User Attribute list, set `token claim Name` to `type` and finish by selecting `Add to lightweight access token`. Save.
-- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `sender`, `Type` to `customer`, `Credentials` to `sender` and untick `Temporary`.
-- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `receiver`, `Type` to `customer`, `Credentials` to `receiver` and untick `Temporary`.
+- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `alice`, `Type` to `customer`, `Credentials` to `alice` and untick `Temporary`.
+- Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `bob`, `Type` to `customer`, `Credentials` to `bob` and untick `Temporary`.
 - Go to `Users` -> `Create New User`. Select `Email verified` and set `Username` to `issuer`, `Type` to `supplier`, `Credentials` to `issuer` and untick `Temporary`.
 - Go to `Realm Settings` -> `Themes` and set `Login Theme` to `themeLast2`. This theme was customized specifically for our application. If you wish to tailor it to your own needs, please use the Keycloakifier framework.

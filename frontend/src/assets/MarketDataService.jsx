@@ -60,7 +60,6 @@ class MarketDataService {
       const apiUrl = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=${currency}`;
       const response = await fetch(apiUrl, { method: "GET" });
       const data = await response.json();
-      console.log("XCHANGE RATES", data)
       if (!response.ok || data.error) {
         throw new Error(
           `Failed to fetch exchange rates with base currency ${currency}`
@@ -218,6 +217,7 @@ class MarketDataService {
     const ctx = canvasRef.getContext("2d");
 
     if (this.chartInstance) {
+      this.chartInstance.clear();
       this.chartInstance.destroy();
     }
 
