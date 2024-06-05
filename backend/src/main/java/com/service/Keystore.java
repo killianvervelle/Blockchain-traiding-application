@@ -54,7 +54,6 @@ public class Keystore {
                 String alias = generateRandomAlias();
                 System.out.println("New Key: " + newKey + " with following alias: " + alias);
                 reEncryptData(lastKey, newKey);
-                System.out.println("Data succcessfully re-encrypted with new key");
                 // Empty keystore
                 keyStore.load(null, null);
                 // Add new key
@@ -101,6 +100,7 @@ public class Keystore {
             issuanceRequest.setAmount(re_encryptedAmount);
             // Update the database with the newly re-encrypted data
             issuanceRequestRepository.save(issuanceRequest);
+            System.out.println("Data succcessfully re-encrypted with new key");
         }
     }
 
