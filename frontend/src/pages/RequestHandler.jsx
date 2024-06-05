@@ -17,7 +17,7 @@ const RequestHandler = () => {
 
   useEffect(() => {
     const fetchdata = async () => {
-      if (keycloak.tokenParsed["Type"] === "Customer") {
+      if (keycloak.tokenParsed["type"] === "customer") {
         try {
           const transactionsData = await fabricService.getAccountTransactions();
           setTransactions(transactionsData.payload || []);
@@ -25,7 +25,7 @@ const RequestHandler = () => {
           console.error("Failed to fetch user transaction logs.", error);
         }
       }
-      if (keycloak.tokenParsed["Type"] === "Supplier") {
+      if (keycloak.tokenParsed["type"] === "supplier") {
         try {
           const requests = await requestService.getAllIssuanceRequest();
           setIssuanceRequests(requests || []);
@@ -50,7 +50,7 @@ const RequestHandler = () => {
   return (
     <div className="container-fluid">
       <div class="content">
-        {keycloak.tokenParsed["Type"] === "Customer" && (
+        {keycloak.tokenParsed["type"] === "customer" && (
           <>
             <div class="content-t">
               <div className="row2">
@@ -220,7 +220,7 @@ const RequestHandler = () => {
         )}
         <div className="container-fluid">
           <div class="content3">
-            {keycloak.tokenParsed["Type"] === "Supplier" && (
+            {keycloak.tokenParsed["type"] === "supplier" && (
               <>
                 <div className="row">
                   <div className="col">

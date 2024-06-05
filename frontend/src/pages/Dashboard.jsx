@@ -41,7 +41,7 @@ const Dashboard = () => {
     const fetchdata = async () => {
       if (fabricService && marketDataService) {
         try {
-          if (keycloak.tokenParsed["Type"] === "Customer") {
+          if (keycloak.tokenParsed["type"] === "customer") {
             console.log("Fetching account transactions...");
             const transactionsData =
               await fabricService.getAccountTransactions();
@@ -61,7 +61,7 @@ const Dashboard = () => {
             }
           }
 
-          if (keycloak.tokenParsed["Type"] === "Supplier") {
+          if (keycloak.tokenParsed["type"] === "supplier") {
             try {
               const requestsByIssuer =
                 await requestService.getAllIssuanceRequestByIssuer(
@@ -282,6 +282,7 @@ const Dashboard = () => {
       transactions,
       keycloak.tokenParsed.preferred_username
     );
+    console.log("HEY",keycloak.tokenParsed)
     setMetrics(metrics);
     keycloak
       .loadUserProfile()
@@ -289,7 +290,7 @@ const Dashboard = () => {
       .catch((err) => {
         console.error("Failed to load user info", err);
       });
-    if (transactions && keycloak.tokenParsed["Type"] === "Customer") {
+    if (transactions && keycloak.tokenParsed["type"] === "customer") {
       setIsLoading(false);
       if (chartRef1.current) {
         metrics.generateTransactionsGraph(chartRef1.current);
@@ -297,7 +298,7 @@ const Dashboard = () => {
     }
     if (
       issuanceRequestsByIssuer &&
-      keycloak.tokenParsed["Type"] === "Supplier"
+      keycloak.tokenParsed["type"] === "supplier"
     ) {
       setIsLoading(false);
       if (chartRef1.current) {
@@ -338,14 +339,14 @@ const Dashboard = () => {
                   <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                     Total transactions
                   </div>
-                  {keycloak.tokenParsed["Type"] === "Customer" && (
+                  {keycloak.tokenParsed["type"] === "customer" && (
                     <>
                       <div className="h5 mb-0 font-weight-bold text-gray-800">
                         {metrics.countTotalTransactions()}
                       </div>
                     </>
                   )}
-                  {keycloak.tokenParsed["Type"] === "Supplier" && (
+                  {keycloak.tokenParsed["type"] === "supplier" && (
                     <>
                       <div className="h5 mb-0 font-weight-bold text-gray-800">
                         {issuanceRequestsByIssuer.length}
@@ -370,14 +371,14 @@ const Dashboard = () => {
                   </div>
                   <div className="row no-gutters align-items-center">
                     <div className="col-auto">
-                      {keycloak.tokenParsed["Type"] === "Customer" && (
+                      {keycloak.tokenParsed["type"] === "customer" && (
                         <>
                           <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                             {metrics.countPendingTransactions()}
                           </div>
                         </>
                       )}
-                      {keycloak.tokenParsed["Type"] === "Supplier" && (
+                      {keycloak.tokenParsed["type"] === "supplier" && (
                         <>
                           <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                             0
@@ -422,14 +423,14 @@ const Dashboard = () => {
                   </div>
                   <div className="row no-gutters align-items-center">
                     <div className="col-auto">
-                      {keycloak.tokenParsed["Type"] === "Customer" && (
+                      {keycloak.tokenParsed["type"] === "customer" && (
                         <>
                           <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                             {balances.value}
                           </div>
                         </>
                       )}
-                      {keycloak.tokenParsed["Type"] === "Supplier" && (
+                      {keycloak.tokenParsed["type"] === "supplier" && (
                         <>
                           <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                             {10000}
@@ -487,7 +488,7 @@ const Dashboard = () => {
                   aria-labelledby="dropdownMenuLink"
                 >
                   <a className="dropdown-item" href="#">
-                    {keycloak.tokenParsed["Type"] === "Customer" && (
+                    {keycloak.tokenParsed["type"] === "customer" && (
                       <>
                         <button
                           className="btn btn-primary mt-3"
@@ -497,7 +498,7 @@ const Dashboard = () => {
                         </button>
                       </>
                     )}
-                    {keycloak.tokenParsed["Type"] === "Supplier" && (
+                    {keycloak.tokenParsed["type"] === "supplier" && (
                       <>
                         <button
                           className="btn btn-primary mt-3"

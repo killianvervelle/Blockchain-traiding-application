@@ -2,6 +2,9 @@
 
 This project merges blockchain technology, specifically Hyperledger Fabric and Fabric Token SDK, with Spring Boot, React, and MySQL. The application offers users the opportunity to seamlessly exchange their local currency for gold-backed tokens and conduct international settlements. By leveraging the transparency and security of blockchain, users can trust in the integrity of their transactions while benefiting from the stability of gold-backed assets. With a modular architecture encompassing frontend, backend, blockchain, and database layers, the application ensures a user-friendly experience while providing a reliable platform for currency trading and settlements.
 
+#### functionalities 
+
+
 #### Running the frontend in React
 Prerequisites:
 - Node.js: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
@@ -68,6 +71,7 @@ fabric-ca-client version
 export TEST_NETWORK_HOME=</your/path/to>/fabric-samples/test-network
 # Install go and tokengen. Tokengen is a tool to create the configuration file for the token chaincode.
 sudo apt install golang
+sudo apt-get install jq
 go version
 go install github.com/hyperledger-labs/fabric-token-sdk/cmd/tokengen@v0.3.0
 ```
