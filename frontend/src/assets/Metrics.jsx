@@ -5,33 +5,40 @@ import Chart from "chart.js/auto";
  */
 
 class Metrics {
-  constructor(transactions, username) {
-    this.transactions = transactions;
+  constructor(username) {
     this.username = username;
-    this.chartInstance = null;
   }
 
-  countTotalTransactions() {
-    return this.transactions.filter((tx) => tx.sender === this.username).length;
+  countTotalTransactions(transactions) {
+    if (!transactions) return 0;
+    return transactions.filter((tx) => tx.sender === this.username).length;
   }
 
-  countPendingTransactions() {
-    return this.transactions.filter(
+  countPendingTransactions(transactions) {
+    if (!transactions) return 0;
+    return transactions.filter(
       (tx) => (tx.status === "Pending") & (tx.sender === this.username)
     ).length;
   }
 
-  countConfirmedTransactions() {
-    return this.transactions.filter(
+  countConfirmedTransactions(transactions) {
+    if (!transactions) return 0;
+    return transactions.filter(
       (tx) => (tx.status === "Confirmed") & (tx.sender === this.username)
     ).length;
   }
 
-  generateTransactionsGraph = (canvasRef) => {
-    if (!this.transactions) {
+  generateTransactionsGraph = (canvasRef, transactions) => {
+    const userTransactions = transactions.filter((tx) => tx.sender === this.username);
+
+    if (canvasRef.chartInstance) {
+      canvasRef.chartInstance.destroy();
+    }
+
+    if (!userTransactions) {
       return new Chart();
     }
-    const timestamps = this.transactions.map((tx) => tx.timestamp);
+    const timestamps = userTransactions.map((tx) => tx.timestamp);
     const dates = timestamps.map((timestamp) => {
       const date = new Date(timestamp);
       const month = date.getMonth() + 1;
@@ -76,16 +83,15 @@ class Metrics {
     };
     const ctx = canvasRef.getContext("2d");
 
-    if (this.chartInstance) {
-      this.chartInstance.destroy();
-    }
-
-    this.chartInstance = new Chart(ctx, {
+    const chartInstance = new Chart(ctx, {
       type: "bar",
       data: data,
       options: options,
     });
-    return this.chartInstance;
+
+    canvasRef.chartInstance = chartInstance;
+
+    return chartInstance;
   };
 }
 

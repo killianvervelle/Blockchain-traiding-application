@@ -192,6 +192,15 @@ class RequestService {
   }
 
   async generateFulfilledRequetsGraph(canvasRef, requests) {
+
+    if (canvasRef.chartInstance) {
+      canvasRef.chartInstance.destroy();
+    }
+
+    if (!requests) {
+      return new Chart();
+    }
+
     const months = requests.map((tx) => {
       const date = new Date(tx.date);
       return `${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -242,11 +251,14 @@ class RequestService {
     };
 
     const ctx = canvasRef.getContext("2d");
+
     const chartInstance = new Chart(ctx, {
       type: "bar",
       data: data,
       options: options,
     });
+
+    canvasRef.chartInstance = chartInstance;
 
     return chartInstance;
   }

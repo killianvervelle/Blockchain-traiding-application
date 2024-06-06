@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
 import { useGlobalState } from "../assets/ContextHook";
 
-import Metrics from "../assets/Metrics";
 import Downloader from "../helpers/Downloader";
 
 /**
@@ -13,35 +12,30 @@ import Downloader from "../helpers/Downloader";
 
 const Dashboard = () => {
   const { pathname } = useLocation();
-  const [isLoading, setIsLoading] = useState(true);
-  const { fabricService, marketDataService, requestService } = useGlobalState();
+  const { fabricService, marketDataService, requestService, metricsService } = useGlobalState();
   const { keycloak } = useKeycloak();
-  const [transactions, setTransactions] = useState([]);
-  const [issuanceRequestsByIssuer, setIssuanceRequestsByIssuer] = useState([]);
-  const [metrics, setMetrics] = useState(null);
-  const [rates, setRates] = useState({});
-  const [currency, setCurrency] = useState(null);
-  const [balances, setBalances] = useState([]);
-  const [goldprice, setgoldprice] = useState([]);
-  const chartRef1 = useRef(null);
-  const chartRef3 = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState({
+    transactions: [],
+    issuanceRequests: [],
+    rates: {},
+    currency: null,
+    balances: [],
+    goldprice: [],
+  });
+  const chartRefs = {
+    transactions: useRef(),
+    issuanceRequests: useRef(),
+    goldPrice: useRef(),
+  };
   const downloader = new Downloader();
 
   useEffect(() => {
     const fetchData = async () => {
       if (!fabricService || !marketDataService || !requestService) return;
       try {
-        // Fetching user geolocation
         const userGeolocation = await marketDataService.user_geolocalization();
         const userLocalCurrency = userGeolocation.country.currency.split(",");
-
-        // Fetching gold price - Currently, the rates data is hard coded, but eventually you will need to set up an account to use the API calls.
-        // const goldPrice = await marketDataService.fetchGoldPrice(userLocalCurrency);
-        // setGoldPrice(goldPrice.price_gram_24k || []);
-        setgoldprice("86.0589");
-
-        // Fetching exchange rates - Currently, the rates data is hard coded, but eventually you will need to set up an account to use the API calls.
-        //const ratesData = await marketDataService.fetchExchangeRates(userLocalCurrency);
         const ratesData = {
           "success": true,
           "timestamp": 1717664576,
@@ -56,40 +50,28 @@ const Dashboard = () => {
             "HKD": 8.7616
           }
         }
-        setRates(ratesData.rates || {});
-        setCurrency(ratesData.base || null);
+        setData((prevData) => ({
+          ...prevData,
+          rates: ratesData.rates || {},
+          currency: ratesData.base || null,
+        }));
 
         if (keycloak.tokenParsed["type"] === "customer") {
-          // Fetching account transactions
           const transactionsData = await fabricService.getAccountTransactions();
-          const newTransactions = transactionsData.payload || [];
-          setTransactions(newTransactions);
-
-          // Create an instance of Metrics
-          const newMetrics = new Metrics(newTransactions, keycloak.tokenParsed.preferred_username);
-          setMetrics(newMetrics);
-
-          // Fetching account balances
           const balancesData = await fabricService.getAccountBalances();
-          if (balancesData.payload.balance) {
-            const newBalances = balancesData.payload.balance[0] || [];
-            setBalances(newBalances);
-          } else {
-            console.warn("Balances data structure is not as expected:", balancesData);
-          }
+          setData((prevData) => ({
+            ...prevData,
+            transactions: transactionsData.payload || [],
+            balances: balancesData.payload.balance?.[0] || [],
+          }));
         }
 
         if (keycloak.tokenParsed["type"] === "supplier") {
-          try {
-            const requestsByIssuer = await requestService.getAllIssuanceRequestByIssuer(keycloak.tokenParsed.preferred_username);
-            setIssuanceRequestsByIssuer(requestsByIssuer || []);
-          } catch (error) {
-            console.error("Failed to fetch user request logs.", error);
-          }
-        }
-
-        if (chartRef3.current) {
-          marketDataService.generateGoldPriceGraph(chartRef3.current);
+          const requestsByIssuer = await requestService.getAllIssuanceRequestByIssuer(keycloak.tokenParsed.preferred_username);
+          setData((prevData) => ({
+            ...prevData,
+            issuanceRequests: requestsByIssuer || [],
+          }));
         }
 
       } catch (error) {
@@ -100,19 +82,34 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [fabricService, marketDataService, requestService, keycloak]);
+  }, [isLoading]);
 
   useEffect(() => {
-    if (transactions.length && metrics && chartRef1.current) {
-      metrics.generateTransactionsGraph(chartRef1.current);
+    if (data.transactions.length && metricsService && chartRefs.transactions.current) {
+      if (chartRefs.transactions.current.chartInstance) {
+        chartRefs.transactions.current.chartInstance.destroy();
+      }
+      metricsService.generateTransactionsGraph(chartRefs.transactions.current, data.transactions);
     }
-  }, [transactions, metrics, chartRef1]);
+  }, [data.transactions, isLoading]);
 
   useEffect(() => {
-    if (issuanceRequestsByIssuer.length && requestService && chartRef1.current) {
-      requestService.generateFulfilledRequetsGraph(chartRef1.current, issuanceRequestsByIssuer);
+    if (data.issuanceRequests.length && requestService && chartRefs.issuanceRequests.current) {
+      if (chartRefs.issuanceRequests.current.chartInstance) {
+        chartRefs.issuanceRequests.current.chartInstance.destroy();
+      }
+      requestService.generateFulfilledRequetsGraph(chartRefs.issuanceRequests.current, data.issuanceRequests);
     }
-  }, [issuanceRequestsByIssuer, requestService, chartRef1]);
+  }, [data.issuanceRequests, isLoading]);
+
+  useEffect(() => {
+    if (marketDataService && chartRefs.goldPrice.current) {
+      if (chartRefs.goldPrice.current.chartInstance) {
+        chartRefs.goldPrice.current.chartInstance.destroy();
+      }
+      marketDataService.generateGoldPriceGraph(chartRefs.goldPrice.current);
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -121,6 +118,7 @@ const Dashboard = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
+
   return (
     <div className="container-fluid">
       <br />
@@ -129,7 +127,7 @@ const Dashboard = () => {
         <button
           className="btn btn-primary mt-1"
           onClick={() =>
-            downloader.handleAllDownload(transactions, goldprice, rates)
+            downloader.handleAllDownload(data.transactions, data.goldprice, data.rates)
           }>Dowload Report</button>
       </div>
       <div className="row">
@@ -143,9 +141,9 @@ const Dashboard = () => {
                   </div>
                   {keycloak.tokenParsed["type"] === "customer" && (
                     <>
-                      {metrics && (
+                      {metricsService && (
                         <div className="h5 mb-0 font-weight-bold text-gray-800">
-                          {metrics.countTotalTransactions()}
+                          {metricsService.countTotalTransactions(data.transactions)}
                         </div>
                       )}
                     </>
@@ -153,7 +151,7 @@ const Dashboard = () => {
                   {keycloak.tokenParsed["type"] === "supplier" && (
                     <>
                       <div className="h5 mb-0 font-weight-bold text-gray-800">
-                        {issuanceRequestsByIssuer.length}
+                        {data.issuanceRequests.length}
                       </div>
                     </>
                   )}
@@ -177,9 +175,9 @@ const Dashboard = () => {
                     <div className="col-auto">
                       {keycloak.tokenParsed["type"] === "customer" && (
                         <>
-                          {metrics && (
+                          {metricsService && (
                             <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                              {metrics.countPendingTransactions()}
+                              {metricsService.countPendingTransactions(data.transactions)}
                             </div>
                           )}
                         </>
@@ -198,18 +196,18 @@ const Dashboard = () => {
                           className="progress-bar bg-info"
                           role="progressbar"
                           aria-valuenow={
-                            metrics
-                              ? (metrics.countPendingTransactions() /
-                                metrics.countTotalTransactions()) *
+                            metricsService
+                              ? (metricsService.countPendingTransactions(data.transactions) /
+                                metricsService.countTotalTransactions(data.transactions)) *
                               100
                               : 0
                           }
                           aria-valuemin={0}
                           aria-valuemax={100}
                           style={{
-                            width: metrics
-                              ? `${(metrics.countPendingTransactions() /
-                                metrics.countTotalTransactions()) *
+                            width: metricsService
+                              ? `${(metricsService.countPendingTransactions() /
+                                metricsService.countTotalTransactions()) *
                               100}%`
                               : "0%",
                           }}
@@ -231,14 +229,14 @@ const Dashboard = () => {
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
-                    {balances.code} balance
+                    {data.balances.code} balance
                   </div>
                   <div className="row no-gutters align-items-center">
                     <div className="col-auto">
                       {keycloak.tokenParsed["type"] === "customer" && (
                         <>
                           <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                            {balances.value}
+                            {data.balances.value}
                           </div>
                         </>
                       )}
@@ -265,10 +263,10 @@ const Dashboard = () => {
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                    Current Gold price {currency}
+                    Current Gold price {data.currency}
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
-                    {goldprice}
+                    {data.goldprice}
                   </div>
                 </div>
               </div>
@@ -304,7 +302,7 @@ const Dashboard = () => {
                       <>
                         <button
                           className="btn btn-primary mt-3"
-                          onClick={() => downloader.handleDownload(transactions, "transactions.json")}
+                          onClick={() => downloader.handleDownload(data.transactions, "transactions.json")}
                         >
                           Download data
                         </button>
@@ -315,7 +313,7 @@ const Dashboard = () => {
                         <button
                           className="btn btn-primary mt-3"
                           onClick={() =>
-                            downloader.handleDownload(issuanceRequestsByIssuer, "issuanceRequests.json")
+                            downloader.handleDownload(data.issuanceRequests, "issuanceRequests.json")
                           }
                         >
                           Download data
@@ -326,14 +324,28 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="card-body" style={{ maxHeight: "320px" }}>
-              <div
-                className="chart-area"
-                style={{ width: "100%", height: "auto" }}
-              >
-                <canvas id="myAreaChart1" ref={chartRef1} />
-              </div>
-            </div>
+            {keycloak.tokenParsed["type"] === "customer" && (
+              <>
+                <div className="card-body" style={{ maxHeight: "320px" }}>
+                  <div
+                    className="chart-area"
+                    style={{ width: "100%", height: "auto" }}
+                  >
+                    <canvas id="myAreaChart1" ref={chartRefs.transactions} />
+                  </div>
+                </div>
+              </>)}
+            {keycloak.tokenParsed["type"] === "supplier" && (
+              <>
+                <div className="card-body" style={{ maxHeight: "320px" }}>
+                  <div
+                    className="chart-area"
+                    style={{ width: "100%", height: "auto" }}
+                  >
+                    <canvas id="myAreaChart1" ref={chartRefs.issuanceRequests} />
+                  </div>
+                </div>
+              </>)}
           </div>
         </div>
         <div className="col">
@@ -362,7 +374,7 @@ const Dashboard = () => {
                   <a className="dropdown-item" href="#">
                     <button
                       className="btn btn-primary mt-3"
-                      onClick={() => downloader.handleDownload(goldprice, "goldPrices.json")}
+                      onClick={() => downloader.handleDownload(data.goldprice, "goldPrices.json")}
                     >
                       Download data
                     </button>
@@ -375,7 +387,7 @@ const Dashboard = () => {
                 className="chart-area"
                 style={{ width: "100%", height: "auto" }}
               >
-                <canvas id="myAreaChart3" ref={chartRef3} />
+                <canvas id="myAreaChart3" ref={chartRefs.goldPrice} />
               </div>
             </div>
           </div>
@@ -384,7 +396,7 @@ const Dashboard = () => {
           <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
               <h6 className="m-0 font-weight-bold text-primary">
-                Exchange rates for 1 {currency}
+                Exchange rates for 1 {data.currency}
               </h6>
               <div className="dropdown no-arrow">
                 <a
@@ -406,7 +418,7 @@ const Dashboard = () => {
                   <a className="dropdown-item" href="#">
                     <button
                       className="btn btn-primary mt-3"
-                      onClick={() => downloader.handleDownload(rates, "exchangeRates.json")}
+                      onClick={() => downloader.handleDownload(data.rates, "exchangeRates.json")}
                     >
                       Download data
                     </button>
@@ -429,12 +441,12 @@ const Dashboard = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {Object.entries(rates).map(
+                            {Object.entries(data.rates).map(
                               ([currency, rate], index) => (
                                 <tr key={index}>
                                   <td>{currency}</td>
                                   <td>{rate}</td>
-                                  <td>{(rate * goldprice).toFixed(2)}</td>
+                                  <td>{(rate * data.goldprice).toFixed(2)}</td>
                                 </tr>
                               )
                             )}

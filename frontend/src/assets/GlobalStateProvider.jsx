@@ -4,6 +4,7 @@ import { useKeycloak } from "@react-keycloak/web";
 import FabricService from "../assets/FabricService";
 import MarketDataService from "./MarketDataService";
 import RequestService from "./RequestService";
+import Metrics from "./Metrics";
 
 /**
  * GlobalStateContext provides a context for the global state of the application.
@@ -25,6 +26,7 @@ export const GlobalStateProvider = ({ children }) => {
   const [fabricService, setFabricService] = useState([]);
   const [marketDataService, setMarketDataService] = useState([]);
   const [requestService, setRequestService] = useState([]);
+  const [metricsService, setMetricsService] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -38,6 +40,10 @@ export const GlobalStateProvider = ({ children }) => {
           setMarketDataService(marketDataService);
           const requestService = new RequestService(fabricService);
           setRequestService(requestService)
+          const metricService = new Metrics(
+            keycloak.tokenParsed.preferred_username
+          );
+          setMetricsService(metricService)
         } catch (error) {
           console.log(error);
         }
@@ -49,7 +55,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   return (
     <GlobalStateContext.Provider
-      value={{ fabricService, marketDataService, requestService }}
+      value={{ fabricService, marketDataService, requestService, metricsService }}
     >
       {children}
     </GlobalStateContext.Provider>

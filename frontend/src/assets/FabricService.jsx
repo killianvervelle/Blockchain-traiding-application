@@ -129,7 +129,7 @@ class FabricService {
     if (!response.ok) {
       throw new Error("Transfer request failed.");
     }
-    return response.json();
+    return await response.json();
   }
 }
 

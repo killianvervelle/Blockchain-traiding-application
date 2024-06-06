@@ -11,7 +11,7 @@ class MarketDataService {
   }
 
   async fetchGoldPrice(userLocalization) {
-    const apiKey = `goldapi-3zarcneslwji2nvv-io`;
+    const apiKey = `your key`;
 
     const fetchPrice = async (currency) => {
       const apiUrl = `https://www.goldapi.io/api/XAU/${currency}`;
@@ -55,7 +55,7 @@ class MarketDataService {
   }
 
   async fetchExchangeRates(userLocalization) {
-    const apiKey = "66a9cb75afb36c4fd2a28d89a725d056";
+    const apiKey = "your key";
     const fetchRates = async (currency) => {
       const apiUrl = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=${currency}`;
       const response = await fetch(apiUrl, { method: "GET" });
@@ -93,7 +93,7 @@ class MarketDataService {
   }
 
   async fetch12Mgoldprices() {
-    const apiKey = "UIQRT8NMK9T7KJF7EEEX333F7EEEX";
+    const apiKey = "your key";
     const currentDate = new Date();
     const twelveMonthsAgoDate = new Date();
     twelveMonthsAgoDate.setMonth(twelveMonthsAgoDate.getMonth() - 1);
@@ -153,7 +153,7 @@ class MarketDataService {
       date.setDate(date.getDate() + i);
       return date.toISOString().split('T')[0];
     });
-
+    
     const data = {
       labels: labels,
       datasets: [
