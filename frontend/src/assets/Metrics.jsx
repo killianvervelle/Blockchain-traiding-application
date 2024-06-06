@@ -77,7 +77,6 @@ class Metrics {
     const ctx = canvasRef.getContext("2d");
 
     if (this.chartInstance) {
-      this.chartInstance.clear();
       this.chartInstance.destroy();
     }
 

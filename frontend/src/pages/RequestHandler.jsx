@@ -182,7 +182,7 @@ const RequestHandler = () => {
                   <div className="container-table">
                     <div class="table-section">
                       <div id="table-wrapper">
-                        <div id="table-scroll">
+                        <div id="table-scroll2">
                           <div className="content-table">
                             <table id="table_transactions">
                               <thead>

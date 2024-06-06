@@ -15,6 +15,7 @@
 
 .row2 {
   width: 100%;
+  margin: 0 5px;
 }
 
 
@@ -40,7 +41,7 @@
   align-items: center;
   width: 91%;
   padding-left: 20px;
-  padding-top: 60px;
+  padding-top: 30px;
   font-size: 14px;
 }
 
@@ -89,7 +90,8 @@
   padding: 20px 0px 0px 0px;
   width: 105%;
   padding-right: 63px;
-  min-height: 42vh;
+  min-height: 36vh;
+  max-height: 38vh;
   gap: 20px;
   position: relative;
   overflow: auto;
@@ -124,7 +126,7 @@ thead {
 .transaction-section2 {
   flex: 1;
   margin: 5px;
-  padding: 0px;
+  padding: 10px;
   border-radius: 5px;
   
   display: flex;
@@ -137,7 +139,16 @@ thead {
 }
 
 #table-scroll {
-  height: 350px;
+  min-height: 30vh;
+  max-height: 32vh;
+  overflow: auto;
+  overflow-x: hidden;
+
+}
+
+#table-scroll2 {
+  min-height: 37vh;
+  max-height: 38vh;
   overflow: auto;
   overflow-x: hidden;
 

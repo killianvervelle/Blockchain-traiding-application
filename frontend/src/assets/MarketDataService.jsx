@@ -55,7 +55,7 @@ class MarketDataService {
   }
 
   async fetchExchangeRates(userLocalization) {
-    const apiKey = "4a2648fe7759f8d9835beab29d2902dc";
+    const apiKey = "66a9cb75afb36c4fd2a28d89a725d056";
     const fetchRates = async (currency) => {
       const apiUrl = `https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}&base=${currency}`;
       const response = await fetch(apiUrl, { method: "GET" });
@@ -217,7 +217,6 @@ class MarketDataService {
     const ctx = canvasRef.getContext("2d");
 
     if (this.chartInstance) {
-      this.chartInstance.clear();
       this.chartInstance.destroy();
     }
 
