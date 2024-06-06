@@ -47,7 +47,13 @@ const Dashboard = () => {
           "timestamp": 1717664576,
           "base": "CHF",
           "rates": {
-            "CHF": 0.0010447152,
+            "EUR": 1.0312,
+            "GDP": 0.8775,
+            "JPY": 174.9996,
+            "AUD": 1.6874,
+            "CAD": 1.5357,
+            "CNY": 8.1276,
+            "HKD": 8.7616
           }
         }
         setRates(ratesData.rates || {});
@@ -58,7 +64,7 @@ const Dashboard = () => {
           const transactionsData = await fabricService.getAccountTransactions();
           const newTransactions = transactionsData.payload || [];
           setTransactions(newTransactions);
-          
+
           // Create an instance of Metrics
           const newMetrics = new Metrics(newTransactions, keycloak.tokenParsed.preferred_username);
           setMetrics(newMetrics);
