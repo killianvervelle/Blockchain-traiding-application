@@ -8,7 +8,7 @@ This project merges blockchain technology, specifically Hyperledger Fabric and F
 
 ### Views
 
-##### User Dashboard
+#### User Dashboard
 The Dashboard component displays user-related statistics and visualizations based on transaction data, account balances, gold prices, and exchange rates.  
 
 ![Image Alt Text](img/dash.png)
